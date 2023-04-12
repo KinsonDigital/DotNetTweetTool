@@ -1,29 +1,52 @@
-﻿using System.Globalization;
-using System.Net;
+﻿using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace TweetTesting;
 
+/// <summary>
+/// Sends tweets to Twitter.
+/// </summary>
 public class TweetService
 {
     private const string Url = "https://api.twitter.com/2/tweets";
 
+    /// <summary>
+    /// Sends a tweet to Twitter.
+    /// </summary>
+    /// <param name="message">The message to send.</param>
+    /// <param name="consumerAPIKey">The consumer API key.</param>
+    /// <param name="consumerAPISecret">The consumer API secret.</param>
+    /// <param name="accessToken">The access token.</param>
+    /// <param name="accessTokenSecret">The access token secret.</param>
+    /// <exception cref="Exception">
+    ///     Thrown if an HTTP request other than <see cref="HttpStatusCode.OK"/> and <see cref="HttpStatusCode.Created"/>.
+    /// </exception>
     public void SendTweet(
         string message,
-        string consumerKey,
-        string consumerSecret,
+        string consumerAPIKey,
+        string consumerAPISecret,
         string accessToken,
         string accessTokenSecret)
     {
-        SendTweetAsync(message, consumerKey, consumerSecret, accessToken, accessTokenSecret).Wait();
+        SendTweetAsync(message, consumerAPIKey, consumerAPISecret, accessToken, accessTokenSecret).Wait();
     }
 
+    /// <summary>
+    /// Asynchronously sends a tweet to Twitter.
+    /// </summary>
+    /// <param name="message">The message to send.</param>
+    /// <param name="consumerAPIKey">The consumer API key.</param>
+    /// <param name="consumerAPISecret">The consumer API secret.</param>
+    /// <param name="accessToken">The access token.</param>
+    /// <param name="accessTokenSecret">The access token secret.</param>
+    /// <exception cref="Exception">
+    ///     Thrown if an HTTP request other than <see cref="HttpStatusCode.OK"/> and <see cref="HttpStatusCode.Created"/>.
+    /// </exception>
     public async Task SendTweetAsync(
         string message,
-        string consumerKey,
-        string consumerSecret,
+        string consumerAPIKey,
+        string consumerAPISecret,
         string accessToken,
         string accessTokenSecret)
     {
@@ -34,9 +57,9 @@ public class TweetService
         // Build the OAuth parameters
         var signatureMethod = "HMAC-SHA1";
         var version = "1.0";
-        var signature = GenerateSignature("POST", Url, timestamp, nonce, signatureMethod, consumerKey, consumerSecret, accessToken, accessTokenSecret);
+        var signature = GenerateSignature("POST", Url, timestamp, nonce, signatureMethod, consumerAPIKey, consumerAPISecret, accessToken, accessTokenSecret);
         var oauthHeader = "OAuth " +
-                          "oauth_consumer_key=\"" + consumerKey + "\", " +
+                          "oauth_consumer_key=\"" + consumerAPIKey + "\", " +
                           "oauth_nonce=\"" + nonce + "\", " +
                           "oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", " +
                           "oauth_signature_method=\"" + signatureMethod + "\", " +
@@ -79,7 +102,7 @@ public class TweetService
     /// <param name="token"></param>
     /// <param name="tokenSecret"></param>
     /// <returns></returns>
-    private string GenerateSignature(string method, string url, string timestamp, string nonce, string signatureMethod, string consumerKey, string consumerSecret, string token, string tokenSecret)
+    private static string GenerateSignature(string method, string url, string timestamp, string nonce, string signatureMethod, string consumerKey, string consumerSecret, string token, string tokenSecret)
     {
         // Generate the signature base string
         var signatureBaseString = method.ToUpper() + "&" +
