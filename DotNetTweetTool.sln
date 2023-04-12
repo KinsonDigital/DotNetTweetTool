@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTweetTool", "DotNetTweetTool\DotNetTweetTool.csproj", "{C255CFA4-202F-4589-80EB-4B8488C4DAAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C255CFA4-202F-4589-80EB-4B8488C4DAAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C255CFA4-202F-4589-80EB-4B8488C4DAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C255CFA4-202F-4589-80EB-4B8488C4DAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C255CFA4-202F-4589-80EB-4B8488C4DAAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
